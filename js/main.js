@@ -1,104 +1,52 @@
-;(function(){
+// ##############################################
+// 
+//               Slick Slider
+// 
+// ##############################################
 
-	$('.team_slider').slick({
-	infinite: true,
-	slidesToShow: 1,
-	slidesToScroll: 1,
+$('.team_slider').slick({
   dots: true,
   arrows: false,
 });
+
 $('.testimonials_slider').slick({
-	slidesToShow: 1,
-	slidesToScroll: 1,
-	autoplay: true,
   dots: true,
-	autoplaySpeed: 4000,
   arrows: false,
+  autoplay: true,
+  autoplaySpeed: 4000,
 });
 
 
 // ##############################################
 // 
 //                ISOTOPE
-// 
+// external js: isotope.pkgd.js
 // ##############################################
 
-/* ISOTOPE AND MASONRY */
+var $grid = $('.isotope_grid');
 
-function useIsotope(event) {
-    var isotopeGrid = new Isotope( '.portfolio_grid', {
-
-        itemSelector: '.portfolio_item',
-
-        masonry: {
-
-            // use element for option
-
-            columnWidth: '.portfolio_item',
-
-            itemSelector: '.portfolio_item',
-
-            transitionDuration: '0.5s',
-
-            gutter: 8,
-
-            horizontalOrder: true,
-
-        }
-
+// init isotope
+$(function() {
+  $grid.isotope({
+      itemSelector: '.isotope_item',
     });
+});
 
+// bind filter button click
+$('.isotope_filter').on( 'click', 'button', function() {
+  var filterValue = $( this ).attr('data-filter');
 
+  $grid.isotope({ filter: filterValue });
+});
 
-    let applyFilterFromLink = (linkObject) => {
-
-        let filterValue = linkObject.dataset.filter;
-
-        isotopeGrid.arrange({ filter: filterValue });
-
-    };
-
-
-
-    let filterGrid = function( event ) {
-
-        event.preventDefault();
-
-        applyFilterFromLink(this);
-
-        let activeBtn = document.querySelector('.filter-btn--active');
-
-        if (activeBtn) {
-
-            activeBtn.classList.remove('filter-btn--active');
-
-        }
-
-        this.classList.add('filter-btn--active');
-
-    };
-
-
-
-    document.querySelectorAll('.filter-btn').forEach(filterBtn => {
-
-        filterBtn.addEventListener( 'click', filterGrid);
-
-    });
-
-
-
-    let activeBtn = document.querySelector('.filter-btn--active');
-
-    applyFilterFromLink(activeBtn);
-
-}
-
-document.addEventListener('DOMContentLoaded', useIsotope);
-
-
-
-/* END ISOTOPE */
+// change _filter class on buttons
+$('.isotope_filter').each( function( i, buttonGroup ) {
+  var $buttonGroup = $( buttonGroup );
+  $buttonGroup.on( 'click', 'button', function() {
+    $buttonGroup.find('._filter').removeClass('_filter');
+    $( this ).addClass('_filter');
+  });
+});
 
 
 // ##############################################
@@ -107,45 +55,75 @@ document.addEventListener('DOMContentLoaded', useIsotope);
 // 
 // ##############################################
 
-var directionsService = new google.maps.DirectionsService;
-var directionsDisplay = new google.maps.DirectionsRenderer;
-var startPoint;
-var endPoint;
-var travelType;
+var beetrootCoord = {lat: 47.816150, lng: 35.170192};
 
-
-var map = new google.maps.Map(document.getElementById('map'), {
-	center: {lat: 47.825, lng: 35.170},
+var map = new google.maps.Map($('#map')[0], {
+	center: beetrootCoord,
 	zoom: 14,
-  unitSystem: google.maps.UnitSystem.METRIC,
+  disableDefaultUI: true,
 });
 
 var markerBeetroot = new google.maps.Marker({
-  position: {lat: 47.816150, lng: 35.170192},
+  position: beetrootCoord,
   map: map, // or use marker.setMap(map)
   title: 'Beetroot',
-  animation: google.maps.Animation.BOUNCE,
+  icon: '../img/marker.png',
+  // animation: google.maps.Animation.BOUNCE,
 });
 
+// ##############################################
+// 
+//                SCROLL
+// 
+// ##############################################
 
-// Scroll to specific values
-// scrollTo is the same
-window.scroll({
-  top: 2500, 
-  left: 0, 
-  behavior: 'smooth' 
+ $(function(){
+// Cache selectors
+var lastId,
+    topMenu = $(".navbar_nav"),
+    topMenuHeight = topMenu.outerHeight()+15,
+    // All list items
+    // menuItems = topMenu.find("a"),
+    menuItems = $("a"),
+    // Anchors corresponding to menu items
+    // scrollItems = menuItems.map(function(){
+      scrollItems = topMenu.find("a").map(function(){
+      var id = $(this).attr("href");
+      var item = $(id);
+      if (item.length) { return item; }
+    });
+
+// Bind click handler to menu items
+// so we can get a fancy scroll animation
+menuItems.click(function(e){
+  var href = $(this).attr("href"),
+      offsetTop = (href === "#") ? 0 : $(href).offset().top;
+  $('html, body').stop().animate({ 
+      scrollTop: offsetTop
+  }, 300);
+  e.preventDefault();
 });
 
-// Scroll certain amounts from current position 
-window.scrollBy({ 
-  top: 100, // could be negative value
-  left: 0, 
-  behavior: 'smooth' 
-});
-
-// Scroll to a certain element
-document.querySelector('.hello').scrollIntoView({ 
-  behavior: 'smooth' 
-});
-
-})();
+// Bind to scroll
+$(window).scroll(function(){
+   // Get container scroll position
+   var fromTop = $(this).scrollTop()+topMenuHeight;
+   
+   // Get id of current scroll item
+   var cur = scrollItems.map(function(){
+     if ($(this).offset().top < fromTop)
+       return this;
+   });
+   // Get the id of the current element
+   cur = cur[cur.length-1];
+   var id = cur && cur.length ? cur[0].id : "";
+   
+   if (lastId !== id) {
+       lastId = id;
+       // Set/remove active class
+       menuItems
+         .removeClass("_isActive")
+         .filter("[href='#"+id+"']").addClass("_isActive");
+   }                   
+});  
+})

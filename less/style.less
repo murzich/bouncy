@@ -15,13 +15,21 @@
 
 @color-bg: #ffffff;
 @color-bg-second: #f3f3f3;
+@color-bg-intro: #74644d;
 
-@max-width: 1120px;
+@colot-next-button: #19bd9a;
+
+@max-width: 1170px;
+
+
+// ###################################################################
+// ###                    COMMON DEFINITIONS                       ###
+// ###################################################################
 
 body {
 	font-family: @font-general;
 	background-color: @color-bg;
-	color: #444;
+	color: @font-color-black;
 	margin: 0;
 	position: relative;
 }
@@ -29,53 +37,18 @@ img {
 	width: 100%;
 	height: auto;
 }
+a {
+	color: currentColor;
+	text-decoration: none;
+}
 
-// ############################
-// NAVIgATION BAR
-
-.navbar {
-	width: 100%;
-	max-width: @max-width;
-	height: 40px;
-	position: fixed;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin: auto;
-	padding: 40px;
-	left: 50%;
-	transform: translateX(-50%);
-	z-index: 100;
-	color: @font-color-white;
-	// margin-top: 40px;
-
-	&_logo {
-		// TODO: make it svg
-		height: 40px;
-		width: 100px;
-	}
-	&_nav {
-
-	}
-	&_item {
-		color: @font-color-white;
-		font-size: 16px;
-		padding: 5px;
-		margin: 5px;
-		border: 1px solid transparent;
-		text-decoration: none;
-		&:hover {
-			border: 1px solid @font-color-white;
-			border-radius: 20px;
-		}
-	}
+.hidden {
+	display: none;
 }
 
 .main {
 	position: relative;
-	// max-width: 960px;
 	margin: auto;
-	// background-color: #ff9999;
 }
 .section {
 	max-width: @max-width;
@@ -84,247 +57,450 @@ img {
 	box-sizing: border-box;
 }
 .title {
-	font-family: @font-title;
-	font-size: 20px;
-	letter-spacing: .2em;
-	text-transform: uppercase;
-	text-align: center;
-	color: @font-color-title;
-}
-.subtitle {
-	font-family: @font-general;
-	font-style: 14px;
-	letter-spacing: .05em;
-	font-weight: 400;
-	text-align: center;
-	color: @font-color-lightgrey;
-}
-
-.h1 {
-	.title;
-	color: inherit;
-	font-size: 35px;
-}
-
-.intro {
-	color: @font-color-white;
-	position: relative;
-	padding: 100px 0px; 
-	min-height: 735px;
-	height: 100vh;
-	text-align: center;
-	background-image: url(../img/intro-bg.jpg);
-	background-size: cover;
+	margin: 25px auto 50px;
+	max-width: 500px;
 	&_heading {
-		margin: 120px auto 120px;
-		max-width: 625px;
+		font-family: @font-title;
+		font-size: 20px;
+		letter-spacing: .2em;
+		text-transform: uppercase;
+		text-align: center;
+		color: @font-color-title;
+		margin: 25px;
 	}
 	&_subtitle {
-		.subtitle;
+		font-family: @font-general;
+		font-size: 14px;
+		line-height: 25px;
+		letter-spacing: .05em;
+		font-weight: 400;
+		text-align: center;
+		color: @font-color-lightgrey;
+	}
+}
+
+
+// slick slider dots
+
+.slick-dots {
+	li {
+		button {
+			&:before {
+				content: '';
+				width: 8px;
+				height: 8px;
+				border-radius: 50%;
+				background-color: transparent;
+				box-shadow: 0px 0px 0px 1px @font-color-lightgrey;
+			}
+		}
+		&.slick-active button:before {
+			background-color: @font-color-lightgrey;
+		}
+	}
+}
+
+
+// ###################################################################
+// ###                    NAVIGATION BAR                           ###
+// ###################################################################
+
+.navbar {
+	width: 100%;
+	max-width: @max-width;
+	height: 33px;
+	position: fixed;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0 auto;
+	padding: 40px 10px 2px;
+	left: 50%;
+	transform: translateX(-50%);
+	color: @font-color-white;
+	z-index: 100;
+	&_logo {
+		height: 20px;
+		width: 115px;
+		fill: currentColor;
+		margin: 0 15px;
+		&--shadow {
+			filter: drop-shadow( 0px 0px 2px #000 );
+		}
+	}
+	&_nav {
+	}
+	&_item {
+		display: inline-block;
+		line-height: 32px;
+		text-align: center;
+		vertical-align: middle;
+		height: 33px;
+		box-sizing: border-box;
+		font-size: 16px;
+		padding: 0px 20px;
+		margin: 5px;
+		border: 1px solid transparent;
+		border-radius: 17px;
+		text-shadow: 0 0 2px black;
+		&:hover {
+			border: 1px solid currentColor;
+			box-shadow: 0 0 3px 1px black;
+		}
+		&._isActive {
+			border: 1px solid currentColor;
+			box-shadow: 0 0 2px black;
+		}
+	}
+}
+
+
+// ###################################################################
+// ###                    INTRO SECTION                            ###
+// ###################################################################
+
+.intro {
+	box-sizing: border-box;
+	position: relative;
+	height: 100vh;
+	min-height: 360px;
+	padding: 76px 0px;
+	background-color: @color-bg-intro;
+	background-image: url(../img/intro-bg.jpg);
+	background-size: cover;
+	color: @font-color-white;
+	&_heading {
+		position: absolute;
+		max-width: 625px;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		text-align: center;
+	}
+	&_title {
+		font-family: @font-title;
+		letter-spacing: .2em;
+		text-transform: uppercase;
+		color: inherit;
+		font-size: 35px;
+	}
+	&_subtitle {
+		font-family: @font-general;
+		letter-spacing: .05em;
+		font-weight: 400;
 		font-size: 16px;
 		line-height: 28px;
 		color: inherit;
 	}
 	&_next {
 		display: block;
-		width: 30px;
-		height: 30px;
+		width: 36px;
+		height: 36px;
 		border-radius: 50%;
-		background-color: @font-color-grey;
-		margin: 50px auto;
-		color: inherit;
+		background-color: @colot-next-button;
 		text-decoration: none;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		bottom: 76px;
+		&::before,
+		&::after {
+			position: absolute;
+			display: block;
+			content: '';
+			width: 7px;
+			height: 7px;
+			border: 7px solid transparent;
+			border-top: 7px solid currentColor;
+			box-sizing: border-box;
+			transform: translateX(-50%);
+			left: 50%;
+			top: 43%;
+		}
+		&::after {
+			border-top: 7px solid @colot-next-button;
+			top: 38%;
+		}
+
 	}
 }
 
-// #############################
-// ############ PORTFOLIO 
+
+// ###################################################################
+// ###                  PORTFOLIO SECTION                          ###
+// ###################################################################
 
 .portfolio {
 	background-color: @color-bg-second;
+	&_works {
+		margin-bottom: 50px;
+	}
 }
 
+// ### ISOTOPE ### 
+.isotope {
+	position: relative;
+	box-sizing: border-box;
+	&_filter {
+		text-align: center;
+		margin: 50px auto;
+	}
+	&_button {
+		border-radius: 0;
+		margin-left: 0;
+		margin-right: 1px;
+		background-color: transparent;
+		font-size: 16px;
+		color: @font-color-grey;
+		border: none;
+		outline: none;
+		position: relative;
+		transition: text-shadow .2s;
+		&:hover {
+			cursor: pointer;
+			text-shadow: 0 1px 2px #774477;
+		}
+		&._filter:after {
+			content: "";
+			display: block;
+			width: 38px;
+			border-top: 2px solid @colot-next-button;
+			margin: 9px auto 0 auto;
+		}
+	}
 
-// ###################
-// ######### isotop default
+	&_grid {
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		align-content: center;
+		flex-basis: 150px;
+		max-height: 1000px;
 
-.portfolio_grid {
-	// display: flex;
-	// flex-direction: column;
-	// flex-wrap: wrap;
-	// align-content: center;
-	min-height: 700px;
-
-  // background: #DDD;
-  // max-width: 1200px;
+		/* clear fix */
+		&::after {
+			content: '';
+			display: block;
+			clear: both;
+		}
+	}
+	&_item {
+		box-sizing: border-box;
+		width: 25%;
+		padding: 5px;
+	}
 }
 
-/* clear fix */
-.portfolio_grid:after {
-  content: '';
-  display: block;
-  clear: both;
-}
+// ###################################################################
+// ###                    THE TEAM SECTION                         ###
+// ###################################################################
 
-/* ---- .element-item ---- */
-
-.portfolio_item {
-  float: left;
-  width: 24%;
-  // height: 100px;
-  // background: #0D8;
-  // border: 2px solid #333;
-  // border-color: hsla(0, 0%, 0%, 0.7);
-}
-
-.portfolio_item > * {
-  margin: 0;
-  padding: 0;
-}
-
-// #######################
-
-
-
-.button-group:after {
-  content: '';
-  display: block;
-  clear: both;
-}
-
-.button-group .button {
-  float: left;
-  border-radius: 0;
-  margin-left: 0;
-  margin-right: 1px;
-}
-
-.button-group .button:first-child { border-radius: 0.5em 0 0 0.5em; }
-.button-group .button:last-child { border-radius: 0 0.5em 0.5em 0; }
-
-
-#map {
-	height: 600px;
-}
-
-#filters-container {
-	text-align: center;
-	margin: auto;
-}
-.filter-btn {
-    background: transparent;
-    border: none;
-    outline: none;
-    position: relative;
-    &:after {
-      content: "";
-      display: block;
-      width: 38px;
-      border-top: 2px solid transparent;
-      margin: 9px auto 0 auto;
-    }
-    &:hover {
-      cursor: pointer;
-    }
-    &--active {
-      &:after {
-        content: "";
-        display: block;
-        width: 38px;
-        border-top: 2px solid #19bd9a;
-        margin: 9px auto 0 auto;
-      }
-    }
-  }
-
-// i'm so sorry for previous, but i was very nervous, when write that
-
-
-  // ######################################
-  // THE TEAM
-  // ######################################
-
-  .team {
-  	height: 770px;
-
-  	&_slider {
-		padding: 100px 0;
-  	}
-  	&_photo {
-  		// width: 200px;
-  	}
-  	&_slide {
-  		display: flex;
-  		justify-content: space-between;
-  		flex-wrap: nowrap;
-  		height: 380px;
-  	}
+.team {
+	min-height: 770px;
+	&_slider {
+		min-height: 365px;
+		margin: 0 35px;
+		& > .slick-dots {
+			bottom: -85px;
+		}
+	}
+	&_slide {
+		margin: 0 35px;
+		display: flex;
+		justify-content: space-between;
+	}
+	&_photo {
+	}
 	&_info {
 		max-width: 500px;
 	}
-  	&_person {
-  		border-right: 3px solid #19bd9a;
-  		text-align: right;
-  		padding-right: 40px;
-  	}
-  	&_discrition {
-  		text-align: right;
-  		padding-right: 43px;
-  	}
+	&_person {
+		border-right: 3px solid @colot-next-button;
+		text-align: right;
+		padding-right: 40px;
+	}
+	&_name {
+		margin: 30px 0 10px;
+		font-size: 20px;
+		letter-spacing: .04em;
+		color: @font-color-grey;
+		font-weight: 400;
+	}
+	&_profession {
+		color: @font-color-lightgrey;
+		text-transform: uppercase;
+		font-size: 14px;
+		letter-spacing: .1em;
+		font-family: @font-title;
+		font-style: italic;
+		margin: 0;
+	}
+	&_discrition {
+		color: @font-color-lightgrey;
+		font-size: 14px;
+		line-height: 25px;
+		letter-spacing: .05em;
+		text-align: right;
+		padding-right: 43px;
+		margin: 30px 0;
+	}
+}
 
-  }
 
-  // ##############################
-  // contats
+// ###################################################################
+// ###                    THE TEAM CTA SECTION                     ###
+// ###################################################################
 
-  .contactpaste {
-  	background-image: url(../img/bg.jpg);
-  	height: 200px;
-  	text-align: center;
-  	color: white;
-  	&_title {
-	  	.title;
-	  	color: white;
-  	}
-  	&_button {
-  		background-color: transparent;
-  		border: 1px solid inherit;
-  		color: inherit;
-  		outline: none;
-  	}
-  }
+.cta {
+	background-image: url(../img/bg.jpg);
+	height: 200px;
+	text-align: center;
+	color: @font-color-white;
+	&_title {
+		margin: 10px auto 25px;
+		font-size: 20px;
+		letter-spacing: .04em;
+	}
+	&_button {
+		// TODO: unite this with navbar buttons-links
+		background-color: transparent;
+		border: 1px solid inherit;
+		display: inline-block;
+		line-height: 32px;
+		text-align: center;
+		vertical-align: middle;
+		height: 33px;
+		box-sizing: border-box;
+		font-size: 16px;
+		padding: 0px 20px;
+		border: 1px solid currentColor;
+		border-radius: 17px;
+		transition: all .1s;
+		&:hover {
+			background-color: @color-bg;
+			color: @font-color-grey;
+		}
+	}
+}
+
+// ###################################################################
+// ###                    THE TEAM CTA SECTION                     ###
+// ###################################################################
 
 .testimonials {
-	height: 650px;
 	background-color: @color-bg-second;
-
-  	&_slider {
-  		width: 80%;
-		padding: 100px 0;
-  		margin: 0 auto;
-  		height: 400px;
-  	}
-  	&_photo {
-  		// width: 200px;
-  	}
-  	&_slide {
-  		display: flex;
-  		justify-content: space-between;
-  		flex-wrap: nowrap;
-  		box-sizing: border-box;
-  		height: 320px;
-  		padding: 50px 100px;
-  		background-color: @color-bg;
-  	}
-	&_info {
-		max-width: 500px;
+	&_slider {
+		margin: 0 -10px;
+		height: 320px;
+		& > .slick-dots {
+			bottom: 50px;
+		}
 	}
-  	&_person {
-  		border-right: 3px solid #19bd9a;
-  		padding-right: 40px;
-  	}
-  	&_discrition {
-  		padding-right: 43px;
-  	}
+	&_slide {
+		display: flex;
+		justify-content: flex-start;
+		flex-wrap: nowrap;
+		box-sizing: border-box;
+		padding: 55px 100px 70px;
+		background-color: @color-bg;
+	}
+	&_photo {
+		flex-shrink: 0;
+		border-radius: 50%;
+		overflow: hidden;
+		align-self: flex-start;	
+	}
+	&_info {
+		margin: 0 20px 0 70px;
+	}
+	&_person {
+		margin-top: 20px;
+		letter-spacing: .04em;
+		text-transform: uppercase;
+	}
+	&_name {
+		font-weight: 700;
+		font-size: 16px;
+		margin: 5px 0;
+		color: @font-color-lightgrey;
+	}
+	&_profession {
+		color: @font-color-grey;
+		font-size: 14px;
+		margin: 5px 0;
 
+	}
+	&_discrition {
+		margin: 0;
+		font-size: 16px;
+		line-height: 28px;
+		letter-spacing: 0.05em;
+		color: @font-color-lightgrey;
+	}
+}
+
+// ###################################################################
+// ###                         MAP SECTION                         ###
+// ###################################################################
+
+.contact {
+	// max-width: @max-width;
+	margin: auto;
+	padding: 50px 0px;
+	box-sizing: border-box;
+}
+#map {
+	height: 440px;
+	// margin: 0 -10px;
+}
+
+
+// ###################################################################
+// ###                             FOOTER                          ###
+// ###################################################################
+
+.footer {
+	margin: 25px auto 68px;
+	text-align: center;
+	&_logo {
+		fill: @font-color-grey;
+		width: 115px;
+		height: 25px;
+	}
+	&_copyrights {
+		font-size: 14px;
+		line-height: 25px;
+		letter-spacing: .05em;
+		color: @font-color-lightgrey;
+	}
+	&_social-links {
+		margin: 0 1px;
+	}
+}
+.social-list {
+	list-style-type: none;
+	padding: 0;
+	& svg {
+		width: 12px;
+		height: 12px;
+		fill: @font-color-white;
+	}
+	&_item {
+		display: inline-block;
+	}
+	&_link {
+		display: block;
+		width: 26px;
+		height: 26px;
+		line-height: 26px;
+		border-radius: 50%;
+		background-color: blue;
+		&--facebook {background-color: #3b5998 }
+		&--twitter {background-color: #26a6d1 }
+		&--linkedin {background-color: #0e76a8 }
+		&--instagram {background-color: #3f729b }
+		&--vimeo {background-color: #86c9ef }
+	}
 }
